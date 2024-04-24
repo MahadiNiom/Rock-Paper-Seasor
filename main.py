@@ -70,23 +70,23 @@ class GameClass:
                     if i == j:
                         arr[i-1][j-1]= "tie"
                     elif i<j:
-                        arr[i-1][j-1] = "win"
-                    elif i>j:
                         arr[i-1][j-1] = "lose"
+                    elif i>j:
+                        arr[i-1][j-1] = "win"
                 elif(i%2 == 0) and (j%2 == 0):
                     if i == j:
                         arr[i-1][j-1]= "tie"
                     elif i<j:
-                        arr[i-1][j-1] = "win"
-                    elif i>j:
                         arr[i-1][j-1] = "lose"
+                    elif i>j:
+                        arr[i-1][j-1] = "win"
                 else:
                     if i == j:
                         arr[i-1][j-1]= "tie"
                     elif i<j:
-                        arr[i-1][j-1] = "lose"
-                    elif i>j:
                         arr[i-1][j-1] = "win"
+                    elif i>j:
+                        arr[i-1][j-1] = "lose"
 
         for i in ch:
             arr[i-1].insert(0,i)
