@@ -1,4 +1,4 @@
-import hashlib, hmac, random
+import hashlib, hmac, random ,sys
         
 class GameClass:
     key = str(random.randrange(500,600))
@@ -108,8 +108,11 @@ class GameClass:
             if m in (ch):
                 w = self.winning_move(m,c)
                 self.game(m,c,w)
+            elif m == 0:
+                print("Exit successfull")
+                sys. exit()
             else:
-                print("move not available")
+                print("wrong move")
 
 
 g = GameClass()
