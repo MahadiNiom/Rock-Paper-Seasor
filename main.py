@@ -8,23 +8,17 @@ class GameClass:
         dig = hmac.new(key, message, hashlib.sha3_256)
         return dig.hexdigest()
 
-    def get_userinput1(self):
-        px = None
-        while (px == None):
-            try:
-                px =int(input("Enter an odd integer number: "))
-            except ValueError:
-                print("Not an odd integer number")
-        return px
-    
     def make_userinput1(self):
-        u_in1 = self.get_userinput1()
-        if ((u_in1 % 2) == 0):
-            print("Not an odd integer number")
-            u_in1 = self.get_userinput1()
-        else:
-            pass
-        return u_in1
+        while True:
+            try:
+                num = int(input("Please enter an odd integer greater than 1: "))
+                if num > 1 and num % 2 != 0:
+                    return num
+                else:
+                    print("Invalid input! Please enter an odd integer greater than 1.")
+            except ValueError:
+                print("Invalid input! Please enter a valid integer.")
+
 
     def available_moves(self, x):
         arr = list()
@@ -70,23 +64,23 @@ class GameClass:
                     if i == j:
                         arr[i-1][j-1]= "tie"
                     elif i<j:
-                        arr[i-1][j-1] = "lose"
-                    elif i>j:
                         arr[i-1][j-1] = "win"
+                    elif i>j:
+                        arr[i-1][j-1] = "lose"
                 elif(i%2 == 0) and (j%2 == 0):
                     if i == j:
                         arr[i-1][j-1]= "tie"
                     elif i<j:
-                        arr[i-1][j-1] = "lose"
-                    elif i>j:
                         arr[i-1][j-1] = "win"
+                    elif i>j:
+                        arr[i-1][j-1] = "lose"
                 else:
                     if i == j:
                         arr[i-1][j-1]= "tie"
                     elif i<j:
-                        arr[i-1][j-1] = "win"
-                    elif i>j:
                         arr[i-1][j-1] = "lose"
+                    elif i>j:
+                        arr[i-1][j-1] = "win"
 
         for i in ch:
             arr[i-1].insert(0,i)
