@@ -1,100 +1,132 @@
-import hashlib
-import hmac
-import random
-
-class HmacClass:
-    k = str(random.randrange(500,600))
-    def d(self, message):
-        key = bytes(self.k, "utf-8")
+import hashlib, hmac, random
+        
+class GameClass:
+    key = str(random.randrange(500,600))
+    def Calc_digest(self, message):
+        key = bytes(self.key, "utf-8")
         message = bytes(message, "utf-8")
         dig = hmac.new(key, message, hashlib.sha3_256)
         return dig.hexdigest()
 
-
-class Players:
-    def user_choice(self):
-        uc = input("Enter your choice: ")
-        return uc
-
-    def computer_input(self):
-        ch = ["1","2","3"]
-        com_c = random.choice(ch)
-        return com_c
-
-
-class GameLogic:
-    def get_moves(self,x):
-        if (x == hm.d("1")):
-            return "rock"
-        elif (x == hm.d("2")):
-            return "Paper"
-        elif (x == hm.d("3")):
-            return "Scissor"
-
-
-    def game(self,m,c):
-        if (m == c):
-            print(f"You Choose: {self.get_moves(m)}")
-            print(f"Computer Choose {self.get_moves(c)}")
-            print("tie")
-        elif(m==hm.d("1") and c==hm.d("3")):
-            print(f"You Choose: {self.get_moves(m)}")
-            print(f"Computer Choose {self.get_moves(c)}")
-            print("you win!")
-        elif(m==hm.d("2") and c==hm.d("1")):
-            print(f"You Choose: {self.get_moves(m)}")
-            print(f"Computer Choose {self.get_moves(c)}")
-            print("you win!")
-        elif(m==hm.d("3") and c==hm.d("2")):
-            print(f"You Choose: {self.get_moves(m)}")
-            print(f"Computer Choose {self.get_moves(c)}")
-            print("you win!")
-        else:
-            print(f"You Choose: {self.get_moves(m)}")
-            print(f"Computer Choose {self.get_moves(c)}")
-            print("you loose")
-        game_logic.game_start()
-
-    def help(self):
-        print(r"+-------------+------+-------+----------+")
-        print(r"| v PC\User > | Rock | Paper | Scissors |")
-        print(r"+-------------+------+-------+----------+")
-        print(r"| Rock        | Draw | Win   | Lose     |")
-        print(r"+-------------+------+-------+----------+")
-        print(r"| Paper       | Lose | Draw  | Win      |")
-        print(r"+-------------+------+-------+----------+")
-        print(r"| Scissors    | Win  | Lose  | Draw     |")
-        print(r"+-------------+------+-------+----------+")
-
-    def game_start(self):
-        c = hm.d(player.computer_input())
-        print(c)
-        print("Available moves:")
-        print("1 - Rock")
-        print("2 - Paper")
-        print("3 - Seasors")
-        print("0 - exit")
-        print("? - help")
-        q= player.user_choice()
-        m = hm.d(q)
-        if (q in ch):
-            self.game(m,c)
-        elif(q == "0"):
-            print("exit successfull")
-        elif(q == "?"):
-            self.help()
-        else:
-            print("wrong move")
-            self.game_start()
-
+    def get_userinput1(self):
+        px = None
+        while (px == None):
+            try:
+                px =int(input("Enter an odd integer number: "))
+            except ValueError:
+                print("Not an odd integer number")
+        return px
     
-ch = ["1","2","3"]
-hm = HmacClass()
-player = Players()
-game_logic = GameLogic()
-game_logic.game_start()
+    def make_userinput1(self):
+        u_in1 = self.get_userinput1()
+        if ((u_in1 % 2) == 0):
+            print("Not an odd integer number")
+            u_in1 = self.get_userinput1()
+        else:
+            pass
+        return u_in1
+
+    def available_moves(self, x):
+        arr = list()
+        for y in range(x):
+            arr += [y+1]
+        return arr
+    
+    def winning_move(self, m, c):
+        if ((m % 2) == 1) and (c % 2 == 1):
+            r = min(m,c)
+        elif((m % 2)== 0) and (c %2 ==0):
+            r = min(m,c)
+        else:
+            r = max(m,c)
+        return r
+    def game(self,m,c,w):
+        if (m == w) and (c == w):
+            print("tie")
+        elif c == w:
+            print("computer wins")
+        elif m == w:
+            print("you win")
+
+    def create_table(self,data):
+        column_widths = [max(len(str(item)) for item in col) for col in zip(*data)]
+        table = ''
+        for row in data:
+            table += '| ' + ' | '.join(str(item).ljust(width) for item, width in zip(row, column_widths)) + ' |\n'
+        
+        separator = '+-' + '-+-'.join('-' * width for width in column_widths) + '-+\n'
+        
+        table_with_separator = separator + table + separator
+        
+        return table_with_separator
+
+    def help(self,ch):
+        ch = ch
+        l = len(ch)
+        arr = [[0 for _ in range(l)] for _ in range(l)]
+        for i in ch:
+            for j in ch:
+                if (i%2 == 1) and (j%2 == 1):
+                    if i == j:
+                        arr[i-1][j-1]= "tie"
+                    elif i<j:
+                        arr[i-1][j-1] = "win"
+                    elif i>j:
+                        arr[i-1][j-1] = "lose"
+                elif(i%2 == 0) and (j%2 == 0):
+                    if i == j:
+                        arr[i-1][j-1]= "tie"
+                    elif i<j:
+                        arr[i-1][j-1] = "win"
+                    elif i>j:
+                        arr[i-1][j-1] = "lose"
+                else:
+                    if i == j:
+                        arr[i-1][j-1]= "tie"
+                    elif i<j:
+                        arr[i-1][j-1] = "lose"
+                    elif i>j:
+                        arr[i-1][j-1] = "win"
+
+        for i in ch:
+            arr[i-1].insert(0,i)
+
+        ch.insert(0, "v PC/User >")
+        arr.insert(0,ch)
+        table = self.create_table(arr)
+        print(table)
 
 
 
+    def players_move(self,c,ch):
+        m = input("Enter your move: ")
+        try:
+            m = int(m)
+        except ValueError:
+            if m == "?":
+                self.help(ch)
+            else:
+                print("wrong move")
+
+        if type(m) == str:
+            pass
+        elif type(m) == int:
+            if m in (ch):
+                w = self.winning_move(m,c)
+                self.game(m,c,w)
+            else:
+                print("move not available")
 
 
+g = GameClass()
+
+ch = g.available_moves(g.make_userinput1())
+c= random.choice(ch)
+print(g.Calc_digest( str(c)))
+print("available moves are")
+for i in ch:
+    print(f"move - {i}")
+print("Exit - 0")
+print("Help - ?")
+g.players_move(c,ch)
+print("computer choose: ",c)
