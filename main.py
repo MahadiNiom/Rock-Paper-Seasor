@@ -124,8 +124,10 @@ class Game:
         k = random.randrange(200,600)
         h= HmacClass()
         m = Moves()
-        moves = ["rock","paper", "scissor", "lizard", "spoke","6th","7th"]
         n = m.mk_uin1()
+        moves = list()
+        for i in range(n):
+            moves += [input(f"enter {i}th element: ")]
         a_mv = m.mk_mv(n,moves)
         c = m.mk_cm(a_mv)
         print(h.Calc_digest(k,c))
