@@ -13,18 +13,18 @@ class HmacClass:
 class Moves:
     mx = ["rock","paper", "scissor", "lizard", "spoke","6th","7th"]
 
-    def mk_mv(self,x, moves):
+    def mk_mv(self, moves):
         mv = {}
-        for i in range(x):
+        for i in range(len(moves)):
             try:
                 mv[moves[i]] = i+1
             except IndexError:
                 print("not in list")
         return mv
 
-    def mk_cm(self,moves):
+    def mk_cm(self,move):
         arr = list()
-        for key, values in moves.items():
+        for key, values in move.items():
             arr.append(key)
         c = random.choice(arr)
         return c
@@ -124,11 +124,14 @@ class Game:
         k = random.randrange(200,600)
         h= HmacClass()
         m = Moves()
-        n = m.mk_uin1()
-        moves = list()
-        for i in range(n):
-            moves += [input(f"enter {i}th element: ")]
-        a_mv = m.mk_mv(n,moves)
+        moves = sys.argv[1:]
+        if len(moves)<= 2:
+            print("not enough moves ")
+            print("exit successfull")
+            sys.exit()
+        elif (len(moves)%2) == 0:
+            moves.pop()
+        a_mv = m.mk_mv(moves)
         c = m.mk_cm(a_mv)
         print(h.Calc_digest(k,c))
         print("Available Moves")
