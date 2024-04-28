@@ -3,11 +3,9 @@ import hashlib, hmac, random,sys
 class HmacClass:
         
     def Calc_digest(self,key, message):
-        k = bytes(str(key), "utf-8")
-        message = bytes(message, "utf-8")
-        dig = hmac.new(k, message, hashlib.sha3_256)
-        return dig.hexdigest()
-    
+        cy = message+str(key)
+        mac = hashlib.sha3_256(cy.encode("utf-8")).hexdigest()
+        return mac
 
 
 class Moves:
@@ -119,7 +117,6 @@ class Game:
 
 
 
-
     def game(self):
         k = random.randrange(200,600)
         h= HmacClass()
@@ -133,7 +130,7 @@ class Game:
             moves.pop()
         a_mv = m.mk_mv(moves)
         c = m.mk_cm(a_mv)
-        print(h.Calc_digest(k,c))
+        print("MAC:",h.Calc_digest(k,c))
         print("Available Moves")
         for key, values in a_mv.items():
             print(key," "*(9-len(key)),values)
@@ -147,6 +144,8 @@ class Game:
             u = m.mk_um(uin,a_mv)
         print(f"computer Choose {c}")
         print(self.winner(u,c,a_mv))
+        print(f"key : {k}")
+        print("Add this key at the end of your move to calculate hash using SHA3-256 to get MAC")
         self.game()
 
 
