@@ -1,4 +1,4 @@
-import hashlib, hmac, random,sys
+import hashlib, random, sys, secrets
 
 class HmacClass:
         
@@ -6,6 +6,13 @@ class HmacClass:
         cy = message+str(key)
         mac = hashlib.sha3_256(cy.encode("utf-8")).hexdigest()
         return mac
+
+    def csprng_256(self):
+        seed = secrets.token_bytes(32)
+        sha256 = hashlib.sha256()
+        sha256.update(seed)
+        output = sha256.digest()
+        return output
 
 
 class Moves:
@@ -118,9 +125,9 @@ class Game:
 
 
     def game(self):
-        k = random.randrange(200,600)
         h= HmacClass()
         m = Moves()
+        k =h.csprng_256().hex()
         moves = sys.argv[1:]
         if len(moves)<= 2:
             print("not enough moves ")
