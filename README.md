@@ -4,9 +4,12 @@ Unlike classical Rock-Paper-Scissor game, our game supports arbitraty odd number
 
 To play the game run main.py file giving odd number of moves as command line arguments.
 Example:
+
 	$ py main.py rock paper scissor
+
 or
-	$py main.py rock paper scissor lizard spoke
+
+	$ py main.py rock paper scissor lizard spoke
 
 Note: You can pass as many number of arguments you want but it must be greater then or equal three.
 
